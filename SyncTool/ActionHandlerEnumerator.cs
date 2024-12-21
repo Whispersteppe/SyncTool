@@ -1,15 +1,16 @@
 ﻿using SyncTool.Classes;
 using SyncTool.Interface;
+using System.Collections;
 
 namespace SyncTool;
-//TODO make this in IList/IEnumerable/IDictionary/IReadonlyDictionary?
+
 /// <summary>
 /// the set of handlers for the different actions
 /// </summary>
 /// <remarks>
 /// this class won't be directly created, but it will be available through the ServiceProvider from the ServiceProviderFactory
 /// </remarks>
-public class ActionHandlerSet : IActionHandlerSet
+public class ActionHandlerEnumerator : IActionHandlerEnumerator
 {
     readonly List<ISyncActionHandler> _actions;
 
@@ -18,7 +19,7 @@ public class ActionHandlerSet : IActionHandlerSet
     /// </summary>
     /// <param name="handlers">the set of handlers.  these are DI'd into the class</param>
     /// 
-    public ActionHandlerSet(IEnumerable<ISyncActionHandler> handlers) 
+    public ActionHandlerEnumerator(IEnumerable<ISyncActionHandler> handlers) 
     {
         _actions = new List<ISyncActionHandler> (handlers);
     }
@@ -53,4 +54,16 @@ public class ActionHandlerSet : IActionHandlerSet
         throw new InvalidOperationException($"Cannot find a handler for {syncTask.Name}");
     }
 
+    public IEnumerator<ISyncActionHandler> GetEnumerator()
+    {
+        foreach(var handler in _actions)
+        {
+            yield return handler;
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 }

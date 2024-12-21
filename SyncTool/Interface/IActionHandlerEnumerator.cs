@@ -2,7 +2,7 @@
 
 namespace SyncTool.Interface
 {
-    public interface IActionHandlerSet
+    public interface IActionHandlerEnumerator: IEnumerable<ISyncActionHandler>
     {
         ISyncActionHandler GetActionHandler(SyncTaskOptions syncTask);
         

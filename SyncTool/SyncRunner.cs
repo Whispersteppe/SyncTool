@@ -52,7 +52,7 @@ public class SyncRunner
     /// <param name="task"></param>
     public async Task Execute(SyncTaskOptions task) 
     {
-        IActionHandlerSet? handlerSet = _provider.GetService<IActionHandlerSet>() 
+        IActionHandlerEnumerator? handlerSet = _provider.GetService<IActionHandlerEnumerator>() 
             ?? throw new InvalidOperationException("cannot get the IActionHandlerSet");
 
         foreach (var handler in handlerSet.Handlers)

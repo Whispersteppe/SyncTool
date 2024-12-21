@@ -34,7 +34,6 @@ public class BaseHandler
             await DirectoryProcess(pairOptions, childPair);
         }
 
-
         OnDirectoryBeforeFileProcess(parentPair);
 
         FilePairEnumerator fileEmitter = new FilePairEnumerator(parentPair);

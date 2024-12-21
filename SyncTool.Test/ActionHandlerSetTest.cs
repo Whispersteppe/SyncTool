@@ -17,7 +17,7 @@ namespace SyncTool.Test
             ServiceProviderFactory builder = new ServiceProviderFactory();
             var provider = builder.Provider;
 
-            IActionHandlerSet handlerSet = provider.GetService<IActionHandlerSet>();
+            IActionHandlerEnumerator handlerSet = provider.GetService<IActionHandlerEnumerator>();
 
             handlerSet.Handlers.Should().HaveCount(3);
 

@@ -13,7 +13,7 @@ public class ServiceProviderFactory
         _collection = new ServiceCollection();
 
         _collection.AddTypesOfInterface<ISyncActionHandler>();
-        _collection.AddScoped<IActionHandlerSet, ActionHandlerSet>();
+        _collection.AddScoped<IActionHandlerEnumerator, ActionHandlerEnumerator>();
 
         _provider = _collection.BuildServiceProvider();
     }
