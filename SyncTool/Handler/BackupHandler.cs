@@ -1,6 +1,7 @@
 ﻿using SyncTool.Classes;
 using SyncTool.Enums;
 using SyncTool.Interface;
+using System.Diagnostics;
 
 namespace SyncTool.Handler;
 
@@ -68,5 +69,32 @@ public class BackupHandler : BaseHandler, ISyncActionHandler
             filePair.FromFileInfo.CopyTo(filePair.ToFileInfo.FullName);
             return;
         }
+        else if (filePair.FromFileInfo.LastWriteTime == filePair.ToFileInfo.LastWriteTime)
+        {
+            //  times are the same
+            return;
+        }
+        else if (filePair.FromFileInfo.Length == filePair.ToFileInfo.Length)
+        {
+            Debug.WriteLine($"From Hash Code: {filePair.FromFileInfo.GetHashCode()} To Hash Code: {filePair.ToFileInfo.GetHashCode()}");
+
+            //  we'll skip if the filelengths are the same
+            return;
+        }
+        // TODO should do a file compare here
+
+        //  back up the file, replacing the current, and renaming the old To file
+        string initialPath = filePair.ToFileInfo.FullName;
+        string backupExtension = Path.GetExtension(initialPath);
+        string backupPath = Path.GetDirectoryName(initialPath);
+        string backupFileName = Path.GetFileNameWithoutExtension(initialPath);
+        string backupFullFileName = backupPath + @"\" + backupFileName + '.' + DateTime.Now.ToString("yyyyMMddHHmmss") + backupExtension;
+
+        Debug.WriteLine(backupFullFileName);
+
+
+        filePair.ToFileInfo.MoveTo(backupFullFileName);
+        filePair.FromFileInfo.CopyTo(initialPath);
+
     }
 }
