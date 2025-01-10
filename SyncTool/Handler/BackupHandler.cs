@@ -88,7 +88,10 @@ public class BackupHandler : BaseHandler, ISyncActionHandler
         string backupExtension = Path.GetExtension(initialPath);
         string backupPath = Path.GetDirectoryName(initialPath);
         string backupFileName = Path.GetFileNameWithoutExtension(initialPath);
-        string backupFullFileName = backupPath + @"\" + backupFileName + '.' + DateTime.Now.ToString("yyyyMMddHHmmss") + backupExtension;
+        string backupDate = filePair.ToFileInfo.LastWriteTime.ToString("yyyyMMddHHmmss");
+
+        //string backupFullFileName = backupPath + @"\" + backupFileName + '.' + backupDate + backupExtension;
+        string backupFullFileName = $@"{backupPath}\{backupFileName}.{backupDate}{backupExtension}";
 
         Debug.WriteLine(backupFullFileName);
 
